@@ -74,7 +74,6 @@ const Register = () => {
             form={form}
             layout="vertical"
             style={{ width: "70%" }}
-            initialValues={{ remember: true }}
             onFinish={onSubmit}
             autoComplete="off"
           >

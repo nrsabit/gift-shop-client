@@ -71,6 +71,7 @@ const Login = () => {
             </p>
           </div>
           <Form
+            form={form}
             layout="vertical"
             style={{ width: "70%" }}
             onFinish={onSubmit}
