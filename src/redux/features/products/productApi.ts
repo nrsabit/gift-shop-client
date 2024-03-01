@@ -10,15 +10,17 @@ const productApi = baseApi.injectEndpoints({
       transformResponse: (response: any) => ({
         data: response.data,
       }),
+      providesTags: ["products"],
     }),
-    register: builder.mutation({
-      query: (userDetails) => ({
-        url: "/auth/register",
+    AddNewProduct: builder.mutation({
+      query: (payload) => ({
+        url: "/products/create-product",
         method: "POST",
-        body: userDetails,
+        body: payload,
       }),
+      invalidatesTags: ["products"],
     }),
   }),
 });
 
-export const { useGetAllProductsQuery, useRegisterMutation } = productApi;
+export const { useGetAllProductsQuery, useAddNewProductMutation } = productApi;

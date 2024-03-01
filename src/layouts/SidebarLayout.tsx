@@ -48,7 +48,7 @@ const SidebarLayout = () => {
       >
         <img
           style={{ marginTop: "20px"}}
-          src="/public/heaven-gift-shop-header.png"
+          src="/heaven-gift-shop-header.png"
           alt=""
         />
       </div>

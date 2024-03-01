@@ -1,4 +1,4 @@
-import { Button, Table, TableColumnsType, TableProps } from "antd";
+import { Button, Flex, Table, TableColumnsType, TableProps } from "antd";
 import { useGetAllProductsQuery } from "../redux/features/products/productApi";
 import { useState } from "react";
 
@@ -12,6 +12,10 @@ interface DataType {
   productQuantity: number;
   category: string;
   brand: string;
+  material: string;
+  color: string;
+  occasion: string;
+  theme: string;
 }
 
 const ManageProducts = () => {
@@ -20,16 +24,17 @@ const ManageProducts = () => {
 
   const columns: TableColumnsType<DataType> = [
     {
-      title: "Product Name",
+      title: "Name",
       dataIndex: "productName",
     },
     {
-      title: "Product Price",
+      title: "Price",
       dataIndex: "productPrice",
     },
     {
-      title: "Available Quantity",
+      title: "Quantity",
       dataIndex: "productQuantity",
+      responsive: ["sm"],
     },
     {
       title: "Category",
@@ -37,9 +42,58 @@ const ManageProducts = () => {
       responsive: ["sm"],
     },
     {
+      title: "Theme",
+      dataIndex: "theme",
+      responsive: ["sm"],
+    },
+    {
+      title: "Occasion",
+      dataIndex: "occasion",
+      responsive: ["sm"],
+    },
+    {
       title: "Brand",
       dataIndex: "brand",
       responsive: ["sm"],
+    },
+    {
+      title: "Material",
+      dataIndex: "material",
+      responsive: ["sm"],
+    },
+    {
+      title: "Color",
+      dataIndex: "color",
+      responsive: ["sm"],
+    },
+    {
+      title: "Sell & Duplicate",
+      dataIndex: "sell",
+      render: () => {
+        return (
+          <Flex gap={"small"}>
+            <Button>Sell</Button>
+            <Button>Create Variant</Button>
+          </Flex>
+        );
+      },
+    },
+    {
+      title: "Actions",
+      key: "x",
+      width: "8%",
+      render: () => {
+        return (
+          <Flex gap={"small"}>
+            <button>
+              <img src="/pen.png" alt="" />{" "}
+            </button>
+            <button>
+              <img src="/bin.png" alt="" />{" "}
+            </button>
+          </Flex>
+        );
+      },
     },
   ];
 
@@ -50,6 +104,10 @@ const ManageProducts = () => {
     productQuantity: product.productQuantity,
     category: product.category,
     brand: product.brand,
+    theme: product.theme,
+    occasion: product.occasion,
+    color: product.color,
+    material: product.material,
   }));
 
   const [selectedRowKeys, setSelectedRowKeys] = useState<React.Key[]>([]);

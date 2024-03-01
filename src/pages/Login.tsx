@@ -56,7 +56,7 @@ const Login = () => {
             <Col span={24} md={{ span: 0 }} style={{ marginBottom: "30px" }}>
               <img
                 style={{ borderRadius: "8px" }}
-                src="/public/heaven-gift-shop-header.png"
+                src="/heaven-gift-shop-header.png"
                 alt=""
               />
             </Col>
