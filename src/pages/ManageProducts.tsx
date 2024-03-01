@@ -74,7 +74,7 @@ const ManageProducts = () => {
         return (
           <Flex gap={"small"}>
             <Button>Sell</Button>
-            <Button onClick={() => console.log(item.key)}>
+            <Button onClick={() => navigate(`/create-variant/${item?.key}`)}>
               Create Variant
             </Button>
           </Flex>

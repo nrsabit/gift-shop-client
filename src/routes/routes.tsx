@@ -7,6 +7,7 @@ import AddProduct from "../pages/AddProduct";
 import EditProduct from "../pages/EditProduct";
 import ManageProducts from "../pages/ManageProducts";
 import SalesHistory from "../pages/SalesHistory";
+import CreateVariant from "../pages/CreateVariant";
 
 const router = createBrowserRouter([
   {
@@ -26,6 +27,14 @@ const router = createBrowserRouter([
         element: (
           <ProtectedRoute>
             <AddProduct></AddProduct>
+          </ProtectedRoute>
+        ),
+      },
+      {
+        path: "create-variant/:productId",
+        element: (
+          <ProtectedRoute>
+            <CreateVariant></CreateVariant>
           </ProtectedRoute>
         ),
       },
