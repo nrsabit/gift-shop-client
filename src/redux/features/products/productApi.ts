@@ -12,6 +12,16 @@ const productApi = baseApi.injectEndpoints({
       }),
       providesTags: ["products"],
     }),
+    GetSingleProducts: builder.query({
+      query: (id) => ({
+        url: `/products/${id}`,
+        method: "GET",
+      }),
+      transformResponse: (response: any) => ({
+        data: response.data,
+      }),
+      providesTags: ["products"],
+    }),
     AddNewProduct: builder.mutation({
       query: (payload) => ({
         url: "/products/create-product",
@@ -20,7 +30,20 @@ const productApi = baseApi.injectEndpoints({
       }),
       invalidatesTags: ["products"],
     }),
+    EditProduct: builder.mutation({
+      query: (payload) => ({
+        url: `/products/${payload.id}`,
+        method: "PATCH",
+        body: payload.data,
+      }),
+      invalidatesTags: ["products"],
+    }),
   }),
 });
 
-export const { useGetAllProductsQuery, useAddNewProductMutation } = productApi;
+export const {
+  useGetAllProductsQuery,
+  useAddNewProductMutation,
+  useGetSingleProductsQuery,
+  useEditProductMutation,
+} = productApi;

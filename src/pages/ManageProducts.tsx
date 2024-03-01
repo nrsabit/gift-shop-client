@@ -1,6 +1,7 @@
 import { Button, Flex, Table, TableColumnsType, TableProps } from "antd";
 import { useGetAllProductsQuery } from "../redux/features/products/productApi";
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 type TableRowSelection<T> = TableProps<T>["rowSelection"];
 
@@ -20,7 +21,7 @@ interface DataType {
 
 const ManageProducts = () => {
   const { data: allProducts } = useGetAllProductsQuery(undefined);
-  console.log(allProducts);
+  const navigate = useNavigate();
 
   const columns: TableColumnsType<DataType> = [
     {
@@ -68,12 +69,14 @@ const ManageProducts = () => {
     },
     {
       title: "Sell & Duplicate",
-      dataIndex: "sell",
-      render: () => {
+      key: "x",
+      render: (item) => {
         return (
           <Flex gap={"small"}>
             <Button>Sell</Button>
-            <Button>Create Variant</Button>
+            <Button onClick={() => console.log(item.key)}>
+              Create Variant
+            </Button>
           </Flex>
         );
       },
@@ -82,10 +85,10 @@ const ManageProducts = () => {
       title: "Actions",
       key: "x",
       width: "8%",
-      render: () => {
+      render: (item) => {
         return (
           <Flex gap={"small"}>
-            <button>
+            <button onClick={() => navigate(`/edit-product/${item?.key}`)}>
               <img src="/pen.png" alt="" />{" "}
             </button>
             <button>
