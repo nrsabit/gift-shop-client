@@ -69,10 +69,6 @@ const SellModal = ({ product }: Record<string, any>) => {
                 required: true,
                 message: "Please input the quantity..!",
               },
-              {
-                max: product?.productQuantity,
-                message: `Only ${product.productQuantity} items available`,
-              },
             ]}
           >
             <Input type="number" max={product?.productQuantity} />

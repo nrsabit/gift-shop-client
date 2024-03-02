@@ -1,4 +1,12 @@
-import { Button, Flex, Table, TableColumnsType, TableProps } from "antd";
+import {
+  Button,
+  Col,
+  Flex,
+  Input,
+  Table,
+  TableColumnsType,
+  TableProps,
+} from "antd";
 import {
   useDeleteAllProductsMutation,
   useDeleteProductMutation,
@@ -10,6 +18,8 @@ import { toast } from "sonner";
 import { useAppDispatch } from "../redux/hooks";
 import { setProduct } from "../redux/features/products/productSlice";
 import SellModal from "../components/modals/SaleModal";
+import ProductDetailsModal from "../components/modals/ProductDetailsModal";
+import FilterModal from "../components/modals/FilterModal";
 
 type TableRowSelection<T> = TableProps<T>["rowSelection"];
 
@@ -17,7 +27,7 @@ type DataType = {
   _id: any;
   key: string;
   productName: string;
-  productPrice: number;
+  productPrice: string;
   productQuantity: number;
   category: string;
   brand: string;
@@ -25,10 +35,14 @@ type DataType = {
   color: string;
   occasion: string;
   theme: string;
-}
+};
 
 const ManageProducts = () => {
-  const { data: allProducts } = useGetAllProductsQuery(undefined);
+  const [searchValue, setSearchValue] = useState("");
+  const [queries, setQueries] = useState({});
+  const { data: allProducts } = useGetAllProductsQuery(queries, {
+    skip: !queries,
+  });
   const navigate = useNavigate();
   const [deleteAllProducts] = useDeleteAllProductsMutation();
   const [deleteProduct] = useDeleteProductMutation();
@@ -45,7 +59,6 @@ const ManageProducts = () => {
         toast.success(res.data.message, { id: toastId });
       }
     } catch (err) {
-      console.log(err);
       toast.error("Something went wrong", { id: toastId });
     }
   };
@@ -58,41 +71,46 @@ const ManageProducts = () => {
     {
       title: "Price",
       dataIndex: "productPrice",
+      sorter: (a, b) =>
+        parseFloat(a.productPrice.slice(1)) -
+        parseFloat(b.productPrice.slice(1)),
+      responsive: ["sm"],
     },
     {
       title: "Quantity",
       dataIndex: "productQuantity",
+      sorter: (a, b) => a.productQuantity - b.productQuantity,
       responsive: ["sm"],
     },
     {
       title: "Category",
       dataIndex: "category",
-      responsive: ["sm"],
+      responsive: ["lg"],
     },
     {
       title: "Theme",
       dataIndex: "theme",
-      responsive: ["sm"],
+      responsive: ["lg"],
     },
     {
       title: "Occasion",
       dataIndex: "occasion",
-      responsive: ["sm"],
+      responsive: ["lg"],
     },
     {
       title: "Brand",
       dataIndex: "brand",
-      responsive: ["sm"],
+      responsive: ["lg"],
     },
     {
       title: "Material",
       dataIndex: "material",
-      responsive: ["sm"],
+      responsive: ["lg"],
     },
     {
       title: "Color",
       dataIndex: "color",
-      responsive: ["sm"],
+      responsive: ["lg"],
     },
     {
       title: "Sell & Duplicate",
@@ -116,7 +134,6 @@ const ManageProducts = () => {
     {
       title: "Actions",
       key: "x",
-      width: "8%",
       render: (item) => {
         return (
           <Flex gap={"small"}>
@@ -126,10 +143,11 @@ const ManageProducts = () => {
                 navigate(`/edit-product/${item?.key}`);
               }}
             >
-              <img src="/pen.png" alt="" />{" "}
+              <img style={{ maxWidth: "30px" }} src="/pen.png" alt="" />{" "}
             </button>
+            <ProductDetailsModal product={item}></ProductDetailsModal>
             <button onClick={() => handleDelete(item.key)}>
-              <img src="/bin.png" alt="" />{" "}
+              <img style={{ maxWidth: "30px" }} src="/bin.png" alt="" />{" "}
             </button>
           </Flex>
         );
@@ -167,7 +185,6 @@ const ManageProducts = () => {
 
     try {
       const res = (await deleteAllProducts(selectedRowKeys)) as any;
-      console.log(res);
       if (res.error) {
         toast.error(res.error.data.message, { id: toastId });
       } else {
@@ -180,6 +197,22 @@ const ManageProducts = () => {
 
   return (
     <>
+      <Flex style={{ marginBottom: "30px" }} gap={10}>
+        <Col span={18} md={{ span: 12 }} lg={{ span: 6 }}>
+          <Input
+            onBlur={(e) => setSearchValue(e.target.value)}
+            placeholder="search by name, brand, category, color"
+          ></Input>
+        </Col>
+        <Button
+          onClick={() =>
+            setQueries(searchValue !== "" ? { searchTerm: searchValue } : {})
+          }
+        >
+          Search
+        </Button>
+        <FilterModal setQueries={setQueries}></FilterModal>
+      </Flex>
       <Table
         pagination={false}
         rowSelection={rowSelection}
