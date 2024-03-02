@@ -9,10 +9,11 @@ import { useNavigate } from "react-router-dom";
 import { toast } from "sonner";
 import { useAppDispatch } from "../redux/hooks";
 import { setProduct } from "../redux/features/products/productSlice";
+import SellModal from "../components/modals/SaleModal";
 
 type TableRowSelection<T> = TableProps<T>["rowSelection"];
 
-interface DataType {
+type DataType = {
   _id: any;
   key: string;
   productName: string;
@@ -99,7 +100,7 @@ const ManageProducts = () => {
       render: (item) => {
         return (
           <Flex gap={"small"}>
-            <Button>Sell</Button>
+            <SellModal product={item}></SellModal>
             <Button
               onClick={() => {
                 dispatch(setProduct({ product: item }));
