@@ -1,7 +1,14 @@
 import { Button, Flex, Table, TableColumnsType, TableProps } from "antd";
-import { useGetAllProductsQuery } from "../redux/features/products/productApi";
+import {
+  useDeleteAllProductsMutation,
+  useDeleteProductMutation,
+  useGetAllProductsQuery,
+} from "../redux/features/products/productApi";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { toast } from "sonner";
+import { useAppDispatch } from "../redux/hooks";
+import { setProduct } from "../redux/features/products/productSlice";
 
 type TableRowSelection<T> = TableProps<T>["rowSelection"];
 
@@ -22,6 +29,24 @@ interface DataType {
 const ManageProducts = () => {
   const { data: allProducts } = useGetAllProductsQuery(undefined);
   const navigate = useNavigate();
+  const [deleteAllProducts] = useDeleteAllProductsMutation();
+  const [deleteProduct] = useDeleteProductMutation();
+  const dispatch = useAppDispatch();
+
+  const handleDelete = async (id: string) => {
+    const toastId = toast.loading("Deleting...!!", { duration: 2000 });
+
+    try {
+      const res = (await deleteProduct(id)) as any;
+      if (res.error) {
+        toast.error(res.error.data.message, { id: toastId });
+      } else {
+        toast.success(res.data.message, { id: toastId });
+      }
+    } catch (err) {
+      toast.error("Something went wrong", { id: toastId });
+    }
+  };
 
   const columns: TableColumnsType<DataType> = [
     {
@@ -74,7 +99,12 @@ const ManageProducts = () => {
         return (
           <Flex gap={"small"}>
             <Button>Sell</Button>
-            <Button onClick={() => navigate(`/create-variant/${item?.key}`)}>
+            <Button
+              onClick={() => {
+                dispatch(setProduct({ product: item }));
+                navigate(`/create-variant/${item?.key}`);
+              }}
+            >
               Create Variant
             </Button>
           </Flex>
@@ -88,10 +118,15 @@ const ManageProducts = () => {
       render: (item) => {
         return (
           <Flex gap={"small"}>
-            <button onClick={() => navigate(`/edit-product/${item?.key}`)}>
+            <button
+              onClick={() => {
+                dispatch(setProduct({ product: item }));
+                navigate(`/edit-product/${item?.key}`);
+              }}
+            >
               <img src="/pen.png" alt="" />{" "}
             </button>
-            <button>
+            <button onClick={() => handleDelete(item.key)}>
               <img src="/bin.png" alt="" />{" "}
             </button>
           </Flex>
@@ -126,6 +161,21 @@ const ManageProducts = () => {
     selections: [Table.SELECTION_ALL, Table.SELECTION_NONE],
   };
 
+  const handleBulkDelete = async () => {
+    const toastId = toast.loading("Deleting...!!", { duration: 2000 });
+
+    try {
+      const res = (await deleteAllProducts(selectedRowKeys)) as any;
+      if (res.error) {
+        toast.error(res.error.data.message, { id: toastId });
+      } else {
+        toast.success(res.data.message, { id: toastId });
+      }
+    } catch (err) {
+      toast.error("Something went wrong", { id: toastId });
+    }
+  };
+
   return (
     <>
       <Table
@@ -134,7 +184,11 @@ const ManageProducts = () => {
         columns={columns}
         dataSource={productsData}
       />
-      <Button hidden={!selectedRowKeys.length} style={{ marginTop: "50px" }}>
+      <Button
+        hidden={!selectedRowKeys.length}
+        style={{ marginTop: "50px" }}
+        onClick={handleBulkDelete}
+      >
         Delete Selected
       </Button>
     </>

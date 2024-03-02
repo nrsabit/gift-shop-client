@@ -1,18 +1,12 @@
 import { Button, Col, Form, Input, Row } from "antd";
 import { toast } from "sonner";
-import { useNavigate, useParams } from "react-router-dom";
-import {
-  useEditProductMutation,
-  useGetSingleProductsQuery,
-} from "../redux/features/products/productApi";
+import { useNavigate } from "react-router-dom";
+import { useEditProductMutation } from "../redux/features/products/productApi";
+import { selectedProduct } from "../redux/features/products/productSlice";
+import { useAppSelector } from "../redux/hooks";
 
 const EditProduct = () => {
-  const { productId } = useParams();
-  const { data } = useGetSingleProductsQuery(productId, {
-    skip: !productId,
-  });
-
-  const product = data?.data;
+  const product = useAppSelector(selectedProduct);
 
   const [form] = Form.useForm();
   const [editProduct] = useEditProductMutation();
@@ -22,7 +16,7 @@ const EditProduct = () => {
     const toastId = toast.loading("Updating...!!", { duration: 2000 });
 
     const giftItemData = {
-      id: productId,
+      id: product!.key,
       data: {
         ...data,
         productPrice: Number(data.productPrice),
@@ -36,6 +30,7 @@ const EditProduct = () => {
         toast.error(res.error.data.message, { id: toastId });
       } else {
         toast.success(res.data.message, { id: toastId });
+        form.resetFields();
         navigate("/manage-products");
       }
     } catch (err) {

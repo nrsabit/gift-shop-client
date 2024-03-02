@@ -1,18 +1,12 @@
 import { Button, Col, Form, Input, Row } from "antd";
 import { toast } from "sonner";
-import { useNavigate, useParams } from "react-router-dom";
-import {
-  useAddNewProductMutation,
-  useGetSingleProductsQuery,
-} from "../redux/features/products/productApi";
+import { useNavigate } from "react-router-dom";
+import { useAddNewProductMutation } from "../redux/features/products/productApi";
+import { useAppSelector } from "../redux/hooks";
+import { selectedProduct } from "../redux/features/products/productSlice";
 
 const CreateVariant = () => {
-  const { productId } = useParams();
-  const { data } = useGetSingleProductsQuery(productId, {
-    skip: !productId,
-  });
-
-  const product = data?.data;
+  const product = useAppSelector(selectedProduct);
 
   const [form] = Form.useForm();
   const [addProduct] = useAddNewProductMutation();
@@ -33,6 +27,7 @@ const CreateVariant = () => {
         toast.error(res.error.data.message, { id: toastId });
       } else {
         toast.success(res.data.message, { id: toastId });
+        form.resetFields();
         navigate("/manage-products");
       }
     } catch (err) {
