@@ -44,6 +44,7 @@ const ManageProducts = () => {
         toast.success(res.data.message, { id: toastId });
       }
     } catch (err) {
+      console.log(err);
       toast.error("Something went wrong", { id: toastId });
     }
   };
@@ -151,7 +152,6 @@ const ManageProducts = () => {
   const [selectedRowKeys, setSelectedRowKeys] = useState<React.Key[]>([]);
 
   const onSelectChange = (newSelectedRowKeys: React.Key[]) => {
-    console.log("selectedRowKeys changed: ", newSelectedRowKeys);
     setSelectedRowKeys(newSelectedRowKeys);
   };
 
@@ -166,6 +166,7 @@ const ManageProducts = () => {
 
     try {
       const res = (await deleteAllProducts(selectedRowKeys)) as any;
+      console.log(res);
       if (res.error) {
         toast.error(res.error.data.message, { id: toastId });
       } else {

@@ -38,16 +38,17 @@ const productApi = baseApi.injectEndpoints({
       }),
       invalidatesTags: ["products"],
     }),
-    DeleteProduct: builder.mutation({
-      query: (id) => ({
-        url: `/products/${id}`,
+    DeleteAllProducts: builder.mutation({
+      query: (payload) => ({
+        url: `/products/bulk-delete`,
         method: "DELETE",
+        body: payload,
       }),
       invalidatesTags: ["products"],
     }),
-    DeleteAllProducts: builder.mutation({
-      query: () => ({
-        url: `/products/bulk-delete`,
+    DeleteProduct: builder.mutation({
+      query: (id) => ({
+        url: `/products/${id}`,
         method: "DELETE",
       }),
       invalidatesTags: ["products"],
