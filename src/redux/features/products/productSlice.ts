@@ -2,7 +2,7 @@ import {  createSlice } from "@reduxjs/toolkit";
 import { RootState } from "../../store";
 
 type StateType = {
-  product: null | Record<string, unknown>;
+  product: any;
 };
 
 const initialState: StateType = {

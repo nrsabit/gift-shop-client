@@ -80,13 +80,17 @@ const SalesHistory = () => {
         <Col span={24} md={{ span: 12 }}>
           <h2>Total Products Sold</h2>
           <h4 style={{ fontSize: "32px", fontWeight: "bold" }}>
-            {salesHistory?.data.totalItemsSold}
+            {salesHistory?.data.totalItemsSold
+              ? salesHistory?.data.totalItemsSold
+              : 0}
           </h4>
         </Col>
         <Col span={24} md={{ span: 12 }}>
           <h2>Total Sales Amount</h2>
           <h4 style={{ fontSize: "32px", fontWeight: "bold" }}>
-            {`$${salesHistory?.data.totalSaleValue.toFixed(2)}`}
+            {salesHistory?.data.totalSaleValue
+              ? `$${salesHistory?.data.totalSaleValue.toFixed(2)}`
+              : `$0.00`}
           </h4>
         </Col>
       </Row>
@@ -99,7 +103,7 @@ const SalesHistory = () => {
           marginBottom: "30px",
         }}
       >
-        Top Sales
+        Top 5 Sales
       </h4>
       <Table pagination={false} columns={columns} dataSource={salesData} />
     </>

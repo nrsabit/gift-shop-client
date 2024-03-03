@@ -39,7 +39,7 @@ const Login = () => {
             background: "#F1EDE3",
           }}
         >
-          <img src="/public/heaven-gift-shop.png" />
+          <img src="/heaven-gift-shop.png" />
         </div>
       </Col>
       <Col span={24} md={{ span: 12 }}>

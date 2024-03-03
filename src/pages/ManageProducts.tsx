@@ -38,7 +38,6 @@ type DataType = {
 };
 
 const ManageProducts = () => {
-  const [searchValue, setSearchValue] = useState("");
   const [queries, setQueries] = useState({});
   const { data: allProducts } = useGetAllProductsQuery(queries, {
     skip: !queries,
@@ -189,6 +188,7 @@ const ManageProducts = () => {
         toast.error(res.error.data.message, { id: toastId });
       } else {
         toast.success(res.data.message, { id: toastId });
+        setSelectedRowKeys([]);
       }
     } catch (err) {
       toast.error("Something went wrong", { id: toastId });
@@ -200,17 +200,14 @@ const ManageProducts = () => {
       <Flex style={{ marginBottom: "30px" }} gap={10}>
         <Col span={18} md={{ span: 12 }} lg={{ span: 6 }}>
           <Input
-            onBlur={(e) => setSearchValue(e.target.value)}
+            onBlur={(e) =>
+              setQueries(
+                e.target.value !== "" ? { searchTerm: e.target.value } : {}
+              )
+            }
             placeholder="search by name, brand, category, color"
           ></Input>
         </Col>
-        <Button
-          onClick={() =>
-            setQueries(searchValue !== "" ? { searchTerm: searchValue } : {})
-          }
-        >
-          Search
-        </Button>
         <FilterModal setQueries={setQueries}></FilterModal>
       </Flex>
       <Table
