@@ -22,6 +22,7 @@ import ProductDetailsModal from "../components/modals/ProductDetailsModal";
 import FilterModal from "../components/modals/FilterModal";
 import { currentToken } from "../redux/features/auth/authSlice";
 import { verifyToken } from "../utils/verifyToken";
+import AddCouponModal from "../components/modals/AddCouponModal";
 
 type TableRowSelection<T> = TableProps<T>["rowSelection"];
 
@@ -222,6 +223,7 @@ const ManageProducts = () => {
           ></Input>
         </Col>
         <FilterModal setQueries={setQueries}></FilterModal>
+        {user?.role === "manager" && <AddCouponModal></AddCouponModal>}
       </Flex>
       <Table
         pagination={false}

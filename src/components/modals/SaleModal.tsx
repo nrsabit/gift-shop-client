@@ -2,10 +2,13 @@ import { Button, DatePicker, Form, Input, Modal } from "antd";
 import { useState } from "react";
 import { toast } from "sonner";
 import { useCreateSaleMutation } from "../../redux/features/sales/saleApi";
+import { useAppSelector } from "../../redux/hooks";
+import { currentUser } from "../../redux/features/auth/authSlice";
 
 const SellModal = ({ product }: Record<string, any>) => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [form] = Form.useForm();
+  const user = useAppSelector(currentUser);
   const [sellProduct] = useCreateSaleMutation();
 
   const showModal = () => {
@@ -28,6 +31,7 @@ const SellModal = ({ product }: Record<string, any>) => {
       quantity: Number(data.quantity),
       product: product.key,
       productName: product.productName,
+      seller: user?._id,
     };
 
     try {
@@ -90,6 +94,14 @@ const SellModal = ({ product }: Record<string, any>) => {
             rules={[{ required: true, message: "Please input the date..!" }]}
           >
             <DatePicker style={{ width: "100%" }}></DatePicker>
+          </Form.Item>
+
+          <Form.Item<string> label="Seller" name="seller">
+            <Input
+              defaultValue={user?.userName as string}
+              disabled={true}
+              style={{ width: "100%" }}
+            ></Input>
           </Form.Item>
 
           <Button htmlType="submit">Sell</Button>

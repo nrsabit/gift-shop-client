@@ -31,6 +31,13 @@ const productApi = baseApi.injectEndpoints({
       }),
       invalidatesTags: ["products"],
     }),
+    AddNewCoupon: builder.mutation({
+      query: (payload) => ({
+        url: "/products/create-coupon",
+        method: "POST",
+        body: payload,
+      }),
+    }),
     EditProduct: builder.mutation({
       query: (payload) => ({
         url: `/products/${payload.id}`,
@@ -60,6 +67,7 @@ const productApi = baseApi.injectEndpoints({
 export const {
   useGetAllProductsQuery,
   useAddNewProductMutation,
+  useAddNewCouponMutation,
   useGetSingleProductsQuery,
   useEditProductMutation,
   useDeleteProductMutation,

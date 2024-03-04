@@ -113,21 +113,21 @@ const FilterModal = ({ setQueries }: TFilterModalProps) => {
             </Radio.Group>
           </Form.Item>
 
-          <Form.Item<string>
-            label="Min. Price"
-            name="minPrice"
-          >
+          <Form.Item<string> label="Min. Price" name="minPrice">
             <Input type="number" />
           </Form.Item>
 
-          <Form.Item<string>
-            label="Max. Price"
-            name="maxPrice"
-          >
+          <Form.Item<string> label="Max. Price" name="maxPrice">
             <Input type="number" />
           </Form.Item>
 
-          <Button style={{marginRight: "12px"}} htmlType="submit">Filter</Button>
+          <Form.Item<string> label="Recipient Name" name="recipient">
+            <Input type="text" />
+          </Form.Item>
+
+          <Button style={{ marginRight: "12px" }} htmlType="submit">
+            Filter
+          </Button>
           <Button
             onClick={() => {
               form.resetFields();
