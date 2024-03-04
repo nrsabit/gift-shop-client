@@ -38,6 +38,13 @@ const productApi = baseApi.injectEndpoints({
         body: payload,
       }),
     }),
+    VerifyCoupon: builder.mutation({
+      query: (code) => ({
+        url: "/products/verify-coupon",
+        method: "POST",
+        body: code,
+      }),
+    }),
     EditProduct: builder.mutation({
       query: (payload) => ({
         url: `/products/${payload.id}`,
@@ -72,4 +79,5 @@ export const {
   useEditProductMutation,
   useDeleteProductMutation,
   useDeleteAllProductsMutation,
+  useVerifyCouponMutation,
 } = productApi;
