@@ -17,7 +17,7 @@ const router = createBrowserRouter([
       {
         path: "/",
         element: (
-          <ProtectedRoute>
+          <ProtectedRoute role={undefined}>
             <Navigate to={"manage-products"}></Navigate>
           </ProtectedRoute>
         ),
@@ -25,7 +25,7 @@ const router = createBrowserRouter([
       {
         path: "add-product",
         element: (
-          <ProtectedRoute>
+          <ProtectedRoute role="manager">
             <AddProduct></AddProduct>
           </ProtectedRoute>
         ),
@@ -33,7 +33,7 @@ const router = createBrowserRouter([
       {
         path: "create-variant/:productId",
         element: (
-          <ProtectedRoute>
+          <ProtectedRoute role="manager">
             <CreateVariant></CreateVariant>
           </ProtectedRoute>
         ),
@@ -41,7 +41,7 @@ const router = createBrowserRouter([
       {
         path: "edit-product/:productId",
         element: (
-          <ProtectedRoute>
+          <ProtectedRoute role="manager">
             <EditProduct></EditProduct>
           </ProtectedRoute>
         ),
@@ -49,7 +49,7 @@ const router = createBrowserRouter([
       {
         path: "manage-products",
         element: (
-          <ProtectedRoute>
+          <ProtectedRoute role={undefined}>
             <ManageProducts></ManageProducts>
           </ProtectedRoute>
         ),
@@ -57,7 +57,7 @@ const router = createBrowserRouter([
       {
         path: "sales-history",
         element: (
-          <ProtectedRoute>
+          <ProtectedRoute role={undefined}>
             <SalesHistory></SalesHistory>
           </ProtectedRoute>
         ),

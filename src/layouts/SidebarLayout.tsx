@@ -2,22 +2,35 @@ import { Menu } from "antd";
 import Sider from "antd/es/layout/Sider";
 import { ItemType, MenuItemType } from "antd/es/menu/hooks/useItems";
 import { NavLink } from "react-router-dom";
+import { useAppSelector } from "../redux/hooks";
+import { currentToken } from "../redux/features/auth/authSlice";
+import { verifyToken } from "../utils/verifyToken";
 
 const SidebarLayout = () => {
+  const token = useAppSelector(currentToken);
+
+  let user;
+  if (token) {
+    user = verifyToken(token) as Record<string, any>;
+  }
+
   const sidebarItems = [
     {
       key: "Manage Products",
       label: <NavLink to={"/manage-products"}>Manage Products</NavLink>,
     },
     {
-      key: "Add Product",
-      label: <NavLink to={"/add-product"}>Add Product</NavLink>,
-    },
-    {
       key: "Sales History",
       label: <NavLink to={"/sales-history"}>Sales History</NavLink>,
     },
   ];
+
+  if (user?.role === "manager") {
+    sidebarItems.splice(1, 0, {
+      key: "Add Product",
+      label: <NavLink to={"/add-product"}>Add Product</NavLink>,
+    });
+  }
 
   return (
     <Sider
@@ -41,13 +54,13 @@ const SidebarLayout = () => {
         }}
       >
         <img
-          style={{ marginTop: "20px"}}
+          style={{ marginTop: "20px" }}
           src="/heaven-gift-shop-header.png"
           alt=""
         />
       </div>
       <Menu
-        style={{ backgroundColor: "#F1EDE3" , marginTop: "20px"}}
+        style={{ backgroundColor: "#F1EDE3", marginTop: "20px" }}
         mode="inline"
         defaultSelectedKeys={["4"]}
         items={sidebarItems as ItemType<MenuItemType>[]}

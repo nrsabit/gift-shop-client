@@ -13,17 +13,20 @@ const Register = () => {
 
   const onSubmit = async (values: any) => {
     const toastId = toast.loading("Creating Account");
+    const userDetails = {
+      ...values,
+      role: "seller",
+    };
 
     try {
-      const res = await register(values).unwrap();
+      const res = await register(userDetails).unwrap();
 
       toast.success(`${res?.message}`, { id: toastId });
       dispatch(logOut());
       form.resetFields();
       navigate("/login");
-
     } catch (err: any) {
-      toast.error(`${err?.data.message}`, { duration: 2000, id: toastId });
+      toast.error(`${err?.data?.message}`, { duration: 2000, id: toastId });
     }
   };
 

@@ -23,7 +23,7 @@ const Login = () => {
       form.resetFields();
       navigate("/manage-products");
     } catch (err: any) {
-      toast.error(`${err?.data.message}`, { duration: 2000, id: toastId });
+      toast.error(`${err?.data?.message}`, { duration: 2000, id: toastId });
     }
   };
 

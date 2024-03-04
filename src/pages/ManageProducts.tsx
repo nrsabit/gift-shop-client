@@ -15,11 +15,13 @@ import {
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { toast } from "sonner";
-import { useAppDispatch } from "../redux/hooks";
+import { useAppDispatch, useAppSelector } from "../redux/hooks";
 import { setProduct } from "../redux/features/products/productSlice";
 import SellModal from "../components/modals/SaleModal";
 import ProductDetailsModal from "../components/modals/ProductDetailsModal";
 import FilterModal from "../components/modals/FilterModal";
+import { currentToken } from "../redux/features/auth/authSlice";
+import { verifyToken } from "../utils/verifyToken";
 
 type TableRowSelection<T> = TableProps<T>["rowSelection"];
 
@@ -46,6 +48,12 @@ const ManageProducts = () => {
   const [deleteAllProducts] = useDeleteAllProductsMutation();
   const [deleteProduct] = useDeleteProductMutation();
   const dispatch = useAppDispatch();
+  const token = useAppSelector(currentToken);
+
+  let user: Record<string, any> = {};
+  if (token) {
+    user = verifyToken(token) as Record<string, any>;
+  }
 
   const handleDelete = async (id: string) => {
     const toastId = toast.loading("Deleting...!!", { duration: 2000 });
@@ -119,6 +127,7 @@ const ManageProducts = () => {
           <Flex gap={"small"}>
             <SellModal product={item}></SellModal>
             <Button
+              hidden={user?.role !== "manager"}
               onClick={() => {
                 dispatch(setProduct({ product: item }));
                 navigate(`/create-variant/${item?.key}`);
@@ -137,6 +146,7 @@ const ManageProducts = () => {
         return (
           <Flex gap={"small"}>
             <button
+              hidden={user?.role !== "manager"}
               onClick={() => {
                 dispatch(setProduct({ product: item }));
                 navigate(`/edit-product/${item?.key}`);
@@ -145,7 +155,10 @@ const ManageProducts = () => {
               <img style={{ maxWidth: "30px" }} src="/pen.png" alt="" />{" "}
             </button>
             <ProductDetailsModal product={item}></ProductDetailsModal>
-            <button onClick={() => handleDelete(item.key)}>
+            <button
+              hidden={user?.role !== "manager"}
+              onClick={() => handleDelete(item.key)}
+            >
               <img style={{ maxWidth: "30px" }} src="/bin.png" alt="" />{" "}
             </button>
           </Flex>
@@ -212,7 +225,7 @@ const ManageProducts = () => {
       </Flex>
       <Table
         pagination={false}
-        rowSelection={rowSelection}
+        rowSelection={user?.role === "manager" ? rowSelection : undefined}
         columns={columns}
         dataSource={productsData}
       />
