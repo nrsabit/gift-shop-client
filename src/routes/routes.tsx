@@ -8,6 +8,7 @@ import EditProduct from "../pages/EditProduct";
 import ManageProducts from "../pages/ManageProducts";
 import SalesHistory from "../pages/SalesHistory";
 import CreateVariant from "../pages/CreateVariant";
+import AllSales from "../pages/AllSales";
 
 const router = createBrowserRouter([
   {
@@ -51,6 +52,14 @@ const router = createBrowserRouter([
         element: (
           <ProtectedRoute role={undefined}>
             <ManageProducts></ManageProducts>
+          </ProtectedRoute>
+        ),
+      },
+      {
+        path: "all-sales",
+        element: (
+          <ProtectedRoute role={undefined}>
+            <AllSales></AllSales>
           </ProtectedRoute>
         ),
       },

@@ -23,6 +23,10 @@ const SidebarLayout = () => {
       key: "Sales History",
       label: <NavLink to={"/sales-history"}>Sales History</NavLink>,
     },
+    {
+      key: "All Sales",
+      label: <NavLink to={"/all-sales"}>All Sales</NavLink>,
+    },
   ];
 
   if (user?.role === "manager") {
