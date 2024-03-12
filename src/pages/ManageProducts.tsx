@@ -62,6 +62,7 @@ const ManageProducts = () => {
     try {
       const res = (await deleteProduct(id)) as any;
       if (res.error) {
+        console.log(res);
         toast.error(res.error.data.message, { id: toastId });
       } else {
         toast.success(res.data.message, { id: toastId });
