@@ -96,16 +96,16 @@ const ManageProducts = () => {
       dataIndex: "category",
       responsive: ["lg"],
     },
-    {
-      title: "Theme",
-      dataIndex: "theme",
-      responsive: ["lg"],
-    },
-    {
-      title: "Occasion",
-      dataIndex: "occasion",
-      responsive: ["lg"],
-    },
+    // {
+    //   title: "Theme",
+    //   dataIndex: "theme",
+    //   responsive: ["lg"],
+    // },
+    // {
+    //   title: "Occasion",
+    //   dataIndex: "occasion",
+    //   responsive: ["lg"],
+    // },
     {
       title: "Brand",
       dataIndex: "brand",
@@ -211,8 +211,8 @@ const ManageProducts = () => {
   };
 
   return (
-    <>
-      <Flex style={{ marginBottom: "30px" }} gap={10}>
+    <div style={{ overflowX: "auto" }}>
+      <Flex style={{ marginBottom: "10px" }} gap={10}>
         <Col span={18} md={{ span: 12 }} lg={{ span: 6 }}>
           <Input
             onBlur={(e) =>
@@ -223,6 +223,8 @@ const ManageProducts = () => {
             placeholder="search by name, brand, category, color"
           ></Input>
         </Col>
+      </Flex>
+      <Flex style={{ marginBottom: "30px" }} gap={10}>
         <FilterModal setQueries={setQueries}></FilterModal>
         {user?.role === "manager" && <AddCouponModal></AddCouponModal>}
       </Flex>
@@ -231,6 +233,7 @@ const ManageProducts = () => {
         rowSelection={user?.role === "manager" ? rowSelection : undefined}
         columns={columns}
         dataSource={productsData}
+        style={{ minWidth: "100%", overflowX: "scroll" }}
       />
       <Button
         hidden={!selectedRowKeys.length}
@@ -239,7 +242,7 @@ const ManageProducts = () => {
       >
         Delete Selected
       </Button>
-    </>
+    </div>
   );
 };
 

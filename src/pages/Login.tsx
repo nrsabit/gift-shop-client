@@ -5,6 +5,7 @@ import { useLoginMutation } from "../redux/features/auth/authApi";
 import { verifyToken } from "../utils/verifyToken";
 import { useAppDispatch } from "../redux/hooks";
 import { setUser } from "../redux/features/auth/authSlice";
+import TestCredentials from "../components/TestCredentials";
 
 const Login = () => {
   const [form] = Form.useForm();
@@ -102,6 +103,7 @@ const Login = () => {
               New on GiftShop? Please <Link to={"/register"}>Register Now</Link>{" "}
             </p>
           </div>
+          <TestCredentials />
         </div>
       </Col>
     </Row>

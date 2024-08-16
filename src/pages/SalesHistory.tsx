@@ -1,6 +1,7 @@
 import { Col, Row, Segmented, Table, TableColumnsType } from "antd";
 import { useGetSalesHistoryQuery } from "../redux/features/sales/saleApi";
 import { useState } from "react";
+import Chart from "../components/Chart";
 
 type DataType = {
   _id: string;
@@ -95,11 +96,16 @@ const SalesHistory = () => {
         </Col>
       </Row>
 
+      <Chart
+        totalItemsSold={salesHistory?.data.totalItemsSold || 0}
+        totalSaleValue={salesHistory?.data.totalSaleValue || 0}
+      />
+
       <h4
         style={{
           fontSize: "32px",
           fontWeight: "bold",
-          marginTop: "100px",
+          marginTop: "50px",
           marginBottom: "30px",
         }}
       >
